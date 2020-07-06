@@ -11,9 +11,10 @@
             width: 300px;
             height: 300px;
             margin: 10px auto 0 auto;
+            background-color: gray;
         }
         .qrcode-image {
-            margin: auto;
+            margin: 10px auto 10px auto;
         }
         table td {
             border: solid 1px #000;
@@ -24,7 +25,7 @@
     <h1>QRコードサンプル</h1>
     <form id="form1" runat="server">
         <div class="qrcode-area">
-            <asp:Image ID="QRImage" runat="server" CssClass="qrcode-image"/><br />
+            <asp:Image ID="QRImage" runat="server" class="qrcode-image"/><br />
             <asp:Label ID="lblQRImageFileName" runat="server"></asp:Label>
         </div>
         <hr />

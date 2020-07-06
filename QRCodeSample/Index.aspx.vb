@@ -57,11 +57,11 @@ Public Class Index
         Dim bw = New BarcodeWriter With {
              .Format = BarcodeFormat.QR_CODE,
              .Options = New QrCode.QrCodeEncodingOptions With {
-                 .ErrorCorrection = ZXing.QrCode.Internal.ErrorCorrectionLevel.M,
-                 .CharacterSet = "ISO-8859-1",
+                 .ErrorCorrection = ZXing.QrCode.Internal.ErrorCorrectionLevel.M, ' 誤り訂正レベル:M:15%まで訂正可能
+                 .CharacterSet = "ISO-8859-1", ' 文字セット。デフォルト値は"ISO-8859-1"であり、日本語扱えず。Shift_JISを使いたい場合、特別な対応必要。
                  .Height = 160,
                  .Width = 160,
-                 .Margin = 4
+                 .Margin = 4  ' 上下左右のマージンをセル数で指定。デフォルトは4。QRコードには、周囲に4セル以上のマージンが必要。通常は4でOK。ただし、表示画像の周りに余白を用意するのであれば0でも良い。
              }
          }
 
