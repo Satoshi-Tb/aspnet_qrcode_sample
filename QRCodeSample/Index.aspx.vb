@@ -1,60 +1,138 @@
 ﻿Imports ZXing
 Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.IO
 
 Public Class Index
     Inherits System.Web.UI.Page
 
+    Private Shared ENC_SJIS As Encoding = Encoding.GetEncoding("shift_jis")
     Private Shared QR_IMAGE_NAME As String = "sample_qr"
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        InitDisplay()
 
         If IsPostBack Then
-            CreateQRImage(CreateQRCodeString(), QRImageFileName(), lstImageFormat.SelectedValue)
-            QRImage.ImageUrl = $"~/Images/{QRImageFileName()}?time={DateTime.Now.Ticks.ToString}"
-            Me.lblQRImageFileName.Text = QRImageFileName()
+            SupplyItem()
+
+            ' ファイル生成
+            CreateQRImage(CreateQRCodeString(), QRImageFileName(), GetImageFormat)
+            QRImage.ImageUrl = $"~/Images/Tmp/{QRImageFileName()}?time={DateTime.Now.Ticks.ToString}"
+            lblQRImageFileName.Text = QRImageFileName()
+
+            ' 画像データ貼り付け
+            ' IE制限あり
+            ' IE7非対応
+            ' IE8 32KB以上不可能
+            ' ViewStateにデータが記録されているため、ViewStateMode=Disableを指定すること。
+            QRImage2.ImageUrl = GetQRImageBase64String(CreateQRCodeString(), GetImageFormat)
+            Label1.Text = lstImageFormat.SelectedValue
+
+
+        Else
+            InitDisplay()
         End If
 
     End Sub
 
+    Private Sub SupplyItem()
+        Dim supply As Action(Of TextBox, String) = Sub(t, def_val) If (String.IsNullOrEmpty(t.Text)) Then t.Text = def_val
+
+        supply(txtItem1, "12345678901234567890")
+        supply(txtItem2, "あいうえおかきくけこ")
+    End Sub
+
 
     Private Sub InitDisplay()
-        ' イメージファイルの削除
+        txtItem1.Text = "12345678901234567890"
+        txtItem2.Text = "あいうえおかきくけこ"
     End Sub
 
     Private Function CreateQRCodeString() As String
         Dim sb As New StringBuilder
 
         sb.
-            Append(If(String.IsNullOrEmpty(txtItem1.Text), "txtItem1", txtItem1.Text)).
-            Append(If(String.IsNullOrEmpty(txtItem2.Text), "txtItem2", Base64Encode(txtItem2.Text)))
+            Append(txtItem1.Text).
+            Append(Base64Encode(txtItem2.Text))
 
         Return sb.ToString
     End Function
 
     Private Function QRImageFileName() As String
-        Dim ext As String = "png"
-        Select Case lstImageFormat.SelectedValue
-            Case "bitmap"
-                ext = "bmp"
-            Case "jpg"
-                ext = "jpg"
-            Case Else
-
-        End Select
-        Return $"{QR_IMAGE_NAME}.{ext}"
+        Return $"{QR_IMAGE_NAME}.{GetImageExt()}"
     End Function
 
     Private Shared Function Base64Encode(s) As String
-        Dim encSJIS As Encoding = Encoding.GetEncoding("shift_jis")
-        Return Convert.ToBase64String(encSJIS.GetBytes(s))
+        Return Convert.ToBase64String(ENC_SJIS.GetBytes(s))
     End Function
 
 
-    Private Sub CreateQRImage(targetString As String, filename As String, imageFormatName As String)
-        Dim bw = New BarcodeWriter With {
+    Private Sub CreateQRImage(targetString As String, filename As String, imgFormat As ImageFormat)
+        Using bitmap = NewBarcodeWriter().Write(targetString)
+            ' 画像はbitmapのほかに、png, jpgなど選択可能
+            bitmap.Save(Server.MapPath($"./Images/Tmp/{filename}"), imgFormat)
+
+        End Using
+    End Sub
+
+    Private Function GetQRImageBase64String(targetString As String, imgFormat As ImageFormat) As String
+        Using bitmap = NewBarcodeWriter().Write(targetString)
+            Using ms = New MemoryStream()
+                bitmap.Save(ms, imgFormat)
+                Return $"data:{GetMimeType()};base64,{Convert.ToBase64String(ms.ToArray)}"
+            End Using
+        End Using
+    End Function
+
+
+    Private Function GetImageExt() As String
+
+        Select Case lstImageFormat.SelectedValue
+            Case "bitmap"
+                Return "bmp"
+            Case "jpg"
+                Return "jpg"
+            Case "gif"
+                Return "gif"
+            Case Else
+                Return "png"
+
+        End Select
+    End Function
+
+
+    Private Function GetMimeType() As String
+
+        Select Case lstImageFormat.SelectedValue
+            Case "bitmap"
+                Return "image/bmp"
+            Case "jpg"
+                Return "image/jpeg"
+            Case "gif"
+                Return "image/gif"
+            Case Else
+                Return "image/png"
+
+        End Select
+    End Function
+
+    Private Function GetImageFormat() As ImageFormat
+
+        Select Case lstImageFormat.SelectedValue
+            Case "bitmap"
+                Return ImageFormat.Bmp
+            Case "jpg"
+                Return ImageFormat.Jpeg
+            Case "gif"
+                Return ImageFormat.Gif
+            Case Else
+                Return ImageFormat.Png
+
+        End Select
+    End Function
+
+    Private Shared Function NewBarcodeWriter() As BarcodeWriter
+        Return New BarcodeWriter With {
              .Format = BarcodeFormat.QR_CODE,
              .Options = New QrCode.QrCodeEncodingOptions With {
                  .ErrorCorrection = ZXing.QrCode.Internal.ErrorCorrectionLevel.M, ' 誤り訂正レベル:M:15%まで訂正可能
@@ -64,22 +142,6 @@ Public Class Index
                  .Margin = 4  ' 上下左右のマージンをセル数で指定。デフォルトは4。QRコードには、周囲に4セル以上のマージンが必要。通常は4でOK。ただし、表示画像の周りに余白を用意するのであれば0でも良い。
              }
          }
-
-        Dim imgFmt As ImageFormat = ImageFormat.Png
-        Select Case imageFormatName
-            Case "bitmap"
-                imgFmt = ImageFormat.Bmp
-            Case "jpg"
-                imgFmt = ImageFormat.Jpeg
-            Case Else
-
-        End Select
-
-        Using bitmap = bw.Write(targetString)
-            ' 画像はbitmapのほかに、png, jpgなど選択可能
-            bitmap.Save(Server.MapPath($"./Images/{filename}"), imgFmt)
-
-        End Using
-    End Sub
+    End Function
 
 End Class

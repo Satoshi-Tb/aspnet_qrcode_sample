@@ -41,6 +41,24 @@ Partial Public Class Index
     Protected WithEvents lblQRImageFileName As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''QRImage2 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents QRImage2 As Global.System.Web.UI.WebControls.Image
+    
+    '''<summary>
+    '''Label1 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''txtItem1 コントロール。
     '''</summary>
     '''<remarks>

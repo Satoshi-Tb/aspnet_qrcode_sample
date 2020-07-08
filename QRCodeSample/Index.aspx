@@ -6,34 +6,55 @@
     <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
     <title>QRコードサンプル</title>
     <style>
+        .container {
+            width: 800px;
+            margin: auto;
+        }
         .qrcode-area {
             border: solid 2px #000;
-            width: 300px;
-            height: 300px;
-            margin: 10px auto 0 auto;
+            width: 250px;
+            height: 250px;
+            display: inline-block;
+            margin-left: 5px;
+            margin-right: 5px;
             background-color: gray;
         }
         .qrcode-image {
-            margin: 10px auto 10px auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
         }
-        table td {
+        .qrcode-input-area {
+            width: 500px;
+            margin: 10px auto 0 auto;
+            border-collapse:collapse;
+        }
+        .qrcode-input-area td {
             border: solid 1px #000;
         }
     </style>
 </head>
 <body>
+    <div class="container">
     <h1>QRコードサンプル</h1>
     <form id="form1" runat="server">
-        <div class="qrcode-area">
-            <asp:Image ID="QRImage" runat="server" class="qrcode-image"/><br />
-            <asp:Label ID="lblQRImageFileName" runat="server"></asp:Label>
+        <div style="text-align: center;">
+            <div class="qrcode-area">
+                <asp:Image ID="QRImage" runat="server" class="qrcode-image"/><br />
+                <asp:Label ID="lblQRImageFileName" runat="server"></asp:Label>
+            </div>
+            <div class="qrcode-area">
+                <asp:Image ID="QRImage2" runat="server" class="qrcode-image" ViewStateMode="Disabled"/><br />
+                <asp:Label ID="Label1" runat="server"></asp:Label>
+            </div>
         </div>
         <hr />
-        <table style="width: 500px; margin: 10px auto 0 auto; border-collapse:collapse;">
+        <table class="qrcode-input-area">
             <caption>QRコード文字列</caption>
             <colgroup>
-                <col width="150"/>
-                <col width="250"/>
+                <col width="200"/>
+                <col width="300"/>
             </colgroup>
             <tbody>
                 <tr>
@@ -41,7 +62,7 @@
                         テキスト1(半角英数)
                     </td>
                     <td>
-                        <asp:TextBox runat="server" ID="txtItem1" MaxLength="100" Width="200" style="margin-bottom:5px;"></asp:TextBox><br />
+                        <asp:TextBox runat="server" ID="txtItem1" MaxLength="100" Width="98%"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
@@ -49,27 +70,31 @@
                         テキスト2(全角文字)
                     </td>
                     <td>
-                        <asp:TextBox runat="server" ID="txtItem2" MaxLength="100" Width="200" style="margin-bottom:5px;"></asp:TextBox><br />
+                        <asp:TextBox runat="server" ID="txtItem2" MaxLength="100" Width="98%"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
                     <td>画像形式</td>
                     <td>
                         <asp:DropDownList ID="lstImageFormat" runat="server">
+                            <asp:ListItem Value="png" Selected="True">PNG</asp:ListItem>
                             <asp:ListItem Value="bitmap">BITMAP</asp:ListItem>
                             <asp:ListItem Value="jpg">JPG</asp:ListItem>
-                            <asp:ListItem Value="png" Selected="True">PNG</asp:ListItem>
+                            <asp:ListItem Value="gif">GIF</asp:ListItem>
+
                         </asp:DropDownList>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align: right;">
+                    <td colspan="2" style="text-align: left;">
                         <input type="submit" value="QRコード生成" />
                     </td>
                 </tr>
             </tbody>
         </table>
-
     </form>
+
+
+    </div>
 </body>
 </html>
