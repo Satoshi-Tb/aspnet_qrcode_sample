@@ -31,6 +31,8 @@ Public Class Index
             ' 生成専用ページへのリクエストをセット
             ' imgリクエストは、原則get通信になる。パラメータはget or sessionで渡す
             QRImage3.ImageUrl = $"QRCodeImage.aspx?time={DateTime.Now.Ticks.ToString}"
+            Session("QRCODE_STRING") = CreateQRCodeString()
+            Session("QRCODE_IMAGE_FORMAT") = lstImageFormat.SelectedValue
             Label2.Text = lstImageFormat.SelectedValue
         Else
             InitDisplay()

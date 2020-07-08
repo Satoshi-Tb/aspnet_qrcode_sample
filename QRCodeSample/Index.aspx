@@ -12,6 +12,7 @@
         }
         .qrcode-area {
             border: solid 2px #000;
+            padding-top: 5px;
             width: 250px;
             height: 250px;
             display: inline-block;
@@ -41,14 +42,17 @@
     <form id="form1" runat="server">
         <div style="text-align: center;">
             <div class="qrcode-area">
+                <asp:Label ID="Label3" runat="server" Text="画像ファイル作成"></asp:Label>
                 <asp:Image ID="QRImage" runat="server" class="qrcode-image"/><br />
                 <asp:Label ID="lblQRImageFileName" runat="server"></asp:Label>
             </div>
             <div class="qrcode-area">
+                <asp:Label ID="Label4" runat="server" Text="HTMLに画像データ埋め込み"></asp:Label>
                 <asp:Image ID="QRImage2" runat="server" class="qrcode-image" ViewStateMode="Disabled"/><br />
                 <asp:Label ID="Label1" runat="server"></asp:Label>
             </div>
             <div class="qrcode-area">
+                <asp:Label ID="Label5" runat="server" Text="画像生成処理"></asp:Label>
                 <asp:Image ID="QRImage3" runat="server" class="qrcode-image"/><br />
                 <asp:Label ID="Label2" runat="server"></asp:Label>
             </div>

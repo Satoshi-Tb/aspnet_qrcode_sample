@@ -9,10 +9,14 @@ Public Class QRCodeImage
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         ' 画面パラメータの受け取り
-        Response.ContentType = GetMimeType()
+        Dim imgFmt = Session("QRCODE_IMAGE_FORMAT")
+
+
+        Response.ContentType = GetMimeType(imgFmt)
         Response.Flush()
-        Using bitmap = NewBarcodeWriter().Write(CreateQRCodeString)
-            bitmap.Save(Response.OutputStream, GetImageFormat)
+
+        Using bitmap = NewBarcodeWriter().Write(Session("QRCODE_STRING"))
+            bitmap.Save(Response.OutputStream, GetImageFormat(imgFmt))
         End Using
         Response.End()
     End Sub
@@ -27,9 +31,8 @@ Public Class QRCodeImage
         Return sb.ToString
     End Function
 
-    Private Function GetMimeType() As String
-        'TODO
-        Select Case "png"
+    Private Function GetMimeType(imgFmt As String) As String
+        Select Case imgFmt
             Case "bitmap"
                 Return "image/bmp"
             Case "jpg"
@@ -42,9 +45,8 @@ Public Class QRCodeImage
         End Select
     End Function
 
-    Private Function GetImageFormat() As ImageFormat
-        'TODO
-        Select Case "png"
+    Private Function GetImageFormat(imgFmt As String) As ImageFormat
+        Select Case imgFmt
             Case "bitmap"
                 Return ImageFormat.Bmp
             Case "jpg"
