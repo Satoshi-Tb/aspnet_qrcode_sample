@@ -59,6 +59,24 @@ Partial Public Class Index
     Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''QRImage3 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents QRImage3 As Global.System.Web.UI.WebControls.Image
+    
+    '''<summary>
+    '''Label2 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''txtItem1 コントロール。
     '''</summary>
     '''<remarks>

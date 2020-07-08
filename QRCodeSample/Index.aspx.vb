@@ -28,7 +28,10 @@ Public Class Index
             QRImage2.ImageUrl = GetQRImageBase64String(CreateQRCodeString(), GetImageFormat)
             Label1.Text = lstImageFormat.SelectedValue
 
-
+            ' 生成専用ページへのリクエストをセット
+            ' imgリクエストは、原則get通信になる。パラメータはget or sessionで渡す
+            QRImage3.ImageUrl = $"QRCodeImage.aspx?time={DateTime.Now.Ticks.ToString}"
+            Label2.Text = lstImageFormat.SelectedValue
         Else
             InitDisplay()
         End If
@@ -38,14 +41,14 @@ Public Class Index
     Private Sub SupplyItem()
         Dim supply As Action(Of TextBox, String) = Sub(t, def_val) If (String.IsNullOrEmpty(t.Text)) Then t.Text = def_val
 
-        supply(txtItem1, "12345678901234567890")
-        supply(txtItem2, "あいうえおかきくけこ")
+        supply(txtItem1, "Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus.")
+        supply(txtItem2, "あいうえおかきくけこさしすせそたちつてとなにぬねのあいうえおかきくけこさしすせそたちつてとなにぬねの")
     End Sub
 
 
     Private Sub InitDisplay()
-        txtItem1.Text = "12345678901234567890"
-        txtItem2.Text = "あいうえおかきくけこ"
+        txtItem1.Text = "Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus."
+        txtItem2.Text = "あいうえおかきくけこさしすせそたちつてとなにぬねのあいうえおかきくけこさしすせそたちつてとなにぬねの"
     End Sub
 
     Private Function CreateQRCodeString() As String

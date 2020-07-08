@@ -100,6 +100,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Index.aspx" />
+    <Content Include="QRCodeImage.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +132,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="QRCodeImage.aspx.designer.vb">
+      <DependentUpon>QRCodeImage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="QRCodeImage.aspx.vb">
+      <DependentUpon>QRCodeImage.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

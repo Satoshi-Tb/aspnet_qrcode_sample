@@ -17,7 +17,7 @@
             display: inline-block;
             margin-left: 5px;
             margin-right: 5px;
-            background-color: gray;
+            background-color: lightgray;
         }
         .qrcode-image {
             display: block;
@@ -47,6 +47,10 @@
             <div class="qrcode-area">
                 <asp:Image ID="QRImage2" runat="server" class="qrcode-image" ViewStateMode="Disabled"/><br />
                 <asp:Label ID="Label1" runat="server"></asp:Label>
+            </div>
+            <div class="qrcode-area">
+                <asp:Image ID="QRImage3" runat="server" class="qrcode-image"/><br />
+                <asp:Label ID="Label2" runat="server"></asp:Label>
             </div>
         </div>
         <hr />
